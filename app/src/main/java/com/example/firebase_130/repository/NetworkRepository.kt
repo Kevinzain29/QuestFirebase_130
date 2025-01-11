@@ -38,8 +38,18 @@ class NetworkRepository(
         }
     }
 
-    override fun getMahasiswa(nim: String): Flow<Mahasiswa> {
-        TODO("Not yet implemented")
+    override fun getMahasiswa(nim: String): Flow<Mahasiswa> = callbackFlow {
+        val mhsDocument = firestore.collection("Mahasiswa")
+            .document(nim)
+            .addSnapshotListener { value, error ->
+                if (value != null) {
+                    val mhs = value.toObject(Mahasiswa::class.java)!!
+                    trySend(mhs)
+                }
+            }
+        awaitClose {
+            mhsDocument.remove()
+        }
     }
 
     override suspend fun deleteMahasiswa(mahasiswa: Mahasiswa) {
