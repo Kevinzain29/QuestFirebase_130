@@ -56,7 +56,7 @@ import com.example.firebase_130.ui.viewmodel.PenyediaViewModel
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit,
     onDeleteCancel: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AlertDialog(
         onDismissRequest = { /* Do nothing */ },
@@ -255,7 +255,7 @@ fun HomeScreen(
             retryAction = {viewModel.getMhs()},modifier = Modifier.padding(innerPadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
-                viewModel.getMhs()
+                viewModel.deleteMhs(it)
             }
         )
     }
