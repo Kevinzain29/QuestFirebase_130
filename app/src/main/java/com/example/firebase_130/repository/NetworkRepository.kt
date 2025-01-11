@@ -64,6 +64,13 @@ class NetworkRepository(
     }
 
     override suspend fun updateMahasiswa(mahasiswa: Mahasiswa) {
-        TODO("Not yet implemented")
+        try {
+            firestore.collection("Mahasiswa")
+                .document(mahasiswa.nim)
+                .set(mahasiswa)
+                .await()
+        } catch (e: Exception) {
+            throw Exception("Gagal mengupdate data mahasiswa: ${e.message}")
+        }
     }
 }
