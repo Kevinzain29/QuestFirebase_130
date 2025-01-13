@@ -1,5 +1,6 @@
 package com.example.firebase_130.repository
 
+import android.util.Log
 import com.example.firebase_130.model.Mahasiswa
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -54,11 +55,23 @@ class NetworkRepository(
 
     override suspend fun deleteMahasiswa(mahasiswa: Mahasiswa) {
         try {
-            firestore.collection("Mahasiswa")
-                .document(mahasiswa.nim)
-                .delete()
+            val document = firestore.collection("Mahasiswa")
+                .whereEqualTo("nim", mahasiswa.nim)
+                .get()
                 .await()
-        } catch (e: Exception) {
+                .documents
+                .firstOrNull()
+            if (document != null) {
+                firestore.collection("Mahasiswa")
+                    .document(document.id)
+                    .delete()
+                    .await()
+                Log.d("NetworkRepository", "Berhasil menghapus data mahasiswa: ${mahasiswa.nim}")
+            } else {
+                Log.e("NetworkRepository", "Data dengan nim ${mahasiswa.nim} tidak ditemukan")
+            }
+        }
+        catch (e: Exception) {
             throw Exception("Gagal menghapus data mahasiswa: ${e.message}")
         }
     }
