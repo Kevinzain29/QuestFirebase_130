@@ -27,8 +27,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.firebase_130.ui.viewmodel.FormErrorState
 import com.example.firebase_130.ui.viewmodel.FormState
@@ -155,7 +157,7 @@ fun InsertBodyMhs(
 }
 
 @Composable
-fun FormMahasiswa (
+fun FormMahasiswa(
     mahasiswaEvent: MahasiswaEvent = MahasiswaEvent(),
     onValueChange: (MahasiswaEvent) -> Unit,
     errorState: FormErrorState = FormErrorState(),
@@ -164,111 +166,159 @@ fun FormMahasiswa (
     val gender = listOf("Laki-laki", "Perempuan")
     val kelas = listOf("A", "B", "C", "D", "E")
 
-    Column (
-        modifier = modifier.fillMaxWidth()
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mahasiswaEvent.nama,
-            onValueChange = {
-                onValueChange(mahasiswaEvent.copy(nama = it))
+            onValueChange = { onValueChange(mahasiswaEvent.copy(nama = it)) },
+            label = {
+                Text("Nama")
             },
-            label = { Text("Nama") },
             isError = errorState.nama != null,
-            placeholder = { Text("Masukkan nama") },
+            placeholder = {
+                Text("Masukkan nama")
+            },
+            textStyle = TextStyle(fontSize = 12.sp)
         )
-        Text(
-            text = errorState.nama ?: "",
-            color = Color.Red
-        )
+
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = mahasiswaEvent.nim, onValueChange = {
-                onValueChange(mahasiswaEvent.copy(nim = it))
+            value = mahasiswaEvent.nim,
+            onValueChange = { onValueChange(mahasiswaEvent.copy(nim = it)) },
+            label = {
+                Text("NIM")
             },
-            label = { Text("NIM") },
             isError = errorState.nim != null,
-            placeholder = { Text("Masukkan NIM") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType =
-                KeyboardType.Number
-            )
-        )
-        Text(text = errorState.nim ?: "", color = Color.Red)
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Jenis Kelamin")
+
+            placeholder = {
+
+
+                Text("Masukkan NIM")
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            textStyle = TextStyle(fontSize = 12.sp)
+        )
+
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             gender.forEach { jk ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = mahasiswaEvent.gender == jk,
-                        onClick = {
-                            onValueChange(mahasiswaEvent.copy(gender = jk))
-                        }
+                        onClick = { onValueChange(mahasiswaEvent.copy(gender = jk)) }
                     )
-                    Text(
-                        text = jk
-                    )
+                    Text(text = jk, fontSize = 12.sp)
                 }
             }
         }
-        Text(
-            text = errorState.gender ?: "",
-            color = Color.Red
-        )
+
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mahasiswaEvent.alamat,
-            onValueChange = {
-                onValueChange(mahasiswaEvent.copy(alamat = it))
+            onValueChange = { onValueChange(mahasiswaEvent.copy(alamat = it)) },
+            label = {
+                Text("Alamat")
             },
-            label = { Text("Alamat") },
             isError = errorState.alamat != null,
-            placeholder = { Text("Masukkan alamat") },
+            placeholder = {
+                Text("Masukkan alamat")
+            },
+            textStyle = TextStyle(fontSize = 12.sp)
         )
-        Text(text = errorState.alamat ?: "", color = Color.Red)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Kelas")
-        Row {
-            kelas.forEach { kelas ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            kelas.forEach { kls ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = mahasiswaEvent.kelas == kelas,
-                        onClick = {
-                            onValueChange(mahasiswaEvent.copy(kelas = kelas))
-                        },
+                        selected = mahasiswaEvent.kelas == kls,
+                        onClick = { onValueChange(mahasiswaEvent.copy(kelas = kls)) }
                     )
-                    Text(text = kelas)
+                    Text(text = kls, fontSize = 12.sp)
                 }
             }
         }
-        Text(
-            text = errorState.kelas ?: "",
-            color = Color.Red
-        )
+
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = mahasiswaEvent.angkatan,
             onValueChange = {
-                onValueChange(mahasiswaEvent.copy(angkatan = it))
+                onValueChange(mahasiswaEvent.copy(angkatan = it)) },
+
+            label = {
+
+                Text("Angkatan")
             },
-            label = { Text("Angkatan") },
+
+
+
             isError = errorState.angkatan != null,
-            placeholder = { Text("Masukkan angkatan") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType =
-                KeyboardType.Number)
+            placeholder = {
+                Text("Masukkan angkatan")
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            textStyle = TextStyle(fontSize = 12.sp)
         )
-        Text(text = errorState.angkatan ?: "", color = Color.Red)
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judulskripsi,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(judulskripsi = it)) },
+            label = {
+                Text("Judul Skripsi")
+            },
+            isError = errorState.judulskripsi != null,
+
+            placeholder = {
+                Text("Masukkan judul skripsi")
+            },
+
+            textStyle = TextStyle(fontSize = 12.sp)
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dospem1,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dospem1 = it)) },
+
+            label = {
+                Text("Dosen Pembimbing 1")
+            },
+            isError = errorState.dospem1 != null,
+
+            placeholder = {
+                Text("Masukkan nama dosen")
+            },
+            singleLine = true,
+            textStyle = TextStyle(fontSize = 12.sp)
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dospem2,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dospem2 = it)) },
+            label = {
+                Text("Dosen Pembimbing 2")
+            },
+
+            isError = errorState.dospem2 != null,
+
+            placeholder = {
+                Text("Masukkan nama dosen")
+            },
+            textStyle = TextStyle(fontSize = 12.sp)
+        )
     }
 }
-

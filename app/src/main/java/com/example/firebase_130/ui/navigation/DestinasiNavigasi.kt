@@ -14,3 +14,12 @@ object DestinasiInsert : DestinasiNavigasi {
     override val route: String = "insert"
     override val titleRes: String = "Insert"
 }
+
+object DestinasiDetail {
+    const val route = "detail"
+    const val NIM = "nim"
+    const val routesWithArg = "$route/{$NIM}"
+}
+
+
+
